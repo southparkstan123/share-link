@@ -3,7 +3,6 @@ import { Link } from '../link';
 import { FormControl, FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { LinkformComponent } from '../linkform/linkform.component';
 
 @Component({
   selector: 'app-addlink',

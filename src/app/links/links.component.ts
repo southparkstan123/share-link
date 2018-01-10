@@ -2,7 +2,6 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ILink, ITag } from '../intefaces';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { EditlinkComponent } from '../editlink/editlink.component';
 import { FormControl, FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
