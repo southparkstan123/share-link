@@ -2,13 +2,22 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UUID } from 'angular2-uuid';
 import { ILink } from '../app/intefaces';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class LinksService {
 
-  getLinks() {
+  private subject: BehaviorSubject<any>;
+
+  constructor () {
     const links = JSON.parse(localStorage.getItem('links'));
-    return links !== null ? links : [];
+    const result = links !== null ? links : [];
+    this.subject = new BehaviorSubject<any>(result);
+  }
+
+  getLinks() {
+    return this.subject.asObservable();
   }
 
   addLink(link: object) {
@@ -22,30 +31,31 @@ export class LinksService {
       obj.push(link);
     }
     localStorage.setItem('links', JSON.stringify(obj));
-    return JSON.parse(localStorage.getItem('links'));
-
+    const result = JSON.parse(localStorage.getItem('links'));
+    this.subject.next(result);
   }
 
   deleteLink(linkIdToBeDeleted: string) {
     const allLinks = JSON.parse(localStorage.getItem('links'));
     const result = allLinks.filter(link => link.id !== linkIdToBeDeleted);
     localStorage.setItem('links', JSON.stringify(result));
-    return JSON.parse(localStorage.getItem('links'));
+    const output = JSON.parse(localStorage.getItem('links'));
+    this.subject.next(output);
   }
 
-  updateLink(linkObj: ILink) {
-    const allLinks = JSON.parse(localStorage.getItem('links'));
-    const result = allLinks.filter(link => link.id !== linkObj.id);
-    result.push(linkObj);
-    localStorage.setItem('links', JSON.stringify(result));
-    return JSON.parse(localStorage.getItem('links'));
-  }
+  // updateLink(linkObj: ILink) {
+  //   const allLinks = JSON.parse(localStorage.getItem('links'));
+  //   const result = allLinks.filter(link => link.id !== linkObj.id);
+  //   result.push(linkObj);
+  //   localStorage.setItem('links', JSON.stringify(result));
+  //   return JSON.parse(localStorage.getItem('links'));
+  // }
 
-  getLinkById(linkIdToBeGet: string) {
-    const allLinks = JSON.parse(localStorage.getItem('links'));
-    const result = allLinks.filter(link => link.id === linkIdToBeGet);
-    console.log(result[0]);
-    return result[0];
-  }
+  // getLinkById(linkIdToBeGet: string) {
+  //   const allLinks = JSON.parse(localStorage.getItem('links'));
+  //   const result = allLinks.filter(link => link.id === linkIdToBeGet);
+  //   console.log(result[0]);
+  //   return result[0];
+  // }
 
 }

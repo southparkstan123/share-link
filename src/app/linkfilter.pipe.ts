@@ -6,11 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LinkfilterPipe implements PipeTransform {
 
   transform(links: any, keyword: any): any {
-    if (keyword === '') {
+    if (keyword === undefined || keyword === '') {
       return links;
     }else {
-      return links.filter(link => link.title.toLowerCase().includes(keyword.toLowerCase()) ||
-       link.url.toLowerCase().includes(keyword.toLowerCase()));
+      return links.filter(link =>
+        link.title.toLowerCase().includes(keyword.toLowerCase())
+      );
     }
 }
 

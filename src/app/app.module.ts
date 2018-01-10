@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { RouterModule } from '@angular/router';
+
 import { AppComponent } from './app.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { LinksComponent } from './links/links.component';
@@ -28,7 +30,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ReactiveFormsModule,
     HttpModule,
     FormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    RouterModule.forRoot([
+      {path: '', component: LinksComponent},
+      {path: 'addlink' , component: AddlinkComponent}
+  ]),
   ],
   providers: [LinksService],
   bootstrap: [AppComponent]

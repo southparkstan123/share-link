@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ILink, ITag } from '../intefaces';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { EditlinkComponent } from '../editlink/editlink.component';
-import { FormControl, FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
+import { LinksService } from '../links.service';
+import { Router } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-links',
@@ -12,20 +14,21 @@ import { FormControl, FormGroup, Validators, FormArray, FormBuilder } from '@ang
 })
 
 export class LinksComponent implements OnInit {
-  @Input() links: ILink;
   @Input() keyword: string;
-  @Input() id: string;
   @Output() linkIdToBeDeleted = new EventEmitter<{id: string}>();
 
+  links = [];
   isInEdit: boolean;
   linkObj: ILink;
-  editLink: FormGroup;
+  subscription: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private modalService: BsModalService) {
+  constructor(private linksService: LinksService) {
   }
 
   ngOnInit() {
-    this.isInEdit = false;
+    this.subscription = this.linksService.getLinks().subscribe((links) => {
+      return this.links = links;
+    });
   }
 
   onSearchKeyword(keyword: string): void {
@@ -36,7 +39,7 @@ export class LinksComponent implements OnInit {
     console.log(id);
     const r = confirm('Are you sure to delete this link?');
     if (r === true) {
-      this.linkIdToBeDeleted.emit(id);
+      this.linksService.deleteLink(id);
     }
   }
 

@@ -1,15 +1,16 @@
 <div class="container">
   <div class="col-sm-3">
     <div class="row">
-      <app-portfolio [numberOfLinks]="numberOfLinks" [sharedLinks]="sharedLinks"></app-portfolio>
+      <!-- <app-portfolio [numberOfLinks]="numberOfLinks" [sharedLinks]="sharedLinks"></app-portfolio> -->
+      <app-portfolio></app-portfolio>
     </div>
-    <div class="row">
-      <app-addlink (linkObj)="onAddLink($event)"></app-addlink>
+    <div class="row text-center">
+      <button type="button" class="btn btn-primary" (click)="toAddLinkPage()">Add Link</button>
     </div>
   </div>
   <div class="col-sm-9">
     <div class="row">
-      <app-links [links]="links" [keyword]="keyword" (linkIdToBeDeleted)="onDeleteLink($event)"></app-links>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

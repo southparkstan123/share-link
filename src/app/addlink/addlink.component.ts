@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { Link } from '../link';
 import { FormControl, FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { LinkformComponent } from '../linkform/linkform.component';
+import { LinksService } from '../links.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-addlink',
@@ -16,9 +15,9 @@ export class AddlinkComponent implements OnInit {
 
   public linkForm: FormGroup;
 
-  public modalRef: BsModalRef;
-
-  constructor(private formBuilder: FormBuilder, private modalService: BsModalService) {
+  constructor(private formBuilder: FormBuilder,
+    private linksService: LinksService,
+    private router: Router) {
     this.linkForm = this.formBuilder.group({
       url : new FormControl(null , Validators.required),
       title: new FormControl(null, Validators.required),
@@ -43,18 +42,12 @@ export class AddlinkComponent implements OnInit {
   onAddLink(event): void {
     console.log(this.linkForm.value);
     if (this.linkForm.status === 'VALID') {
-      this.linkObj.emit(this.linkForm.value);
-      this.closeModal();
+      this.linksService.addLink(this.linkForm.value);
+      this.router.navigate(['/']);
     }
   }
 
-  openModal(addLinkForm: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(addLinkForm);
+  backToMainPage(): void {
+    this.router.navigate(['']);
   }
-
-  closeModal() {
-    this.modalRef.hide();
-    this.linkForm.reset();
-  }
-
 }
