@@ -10,6 +10,7 @@ export class LinkfilterPipe implements PipeTransform {
       return links;
     }else {
       return links.filter(link =>
+        link.tags.join('').toLowerCase().includes(keyword.toLowerCase()) ||
         link.title.toLowerCase().includes(keyword.toLowerCase())
       );
     }
