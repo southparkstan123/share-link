@@ -9,8 +9,9 @@ export class LinkfilterPipe implements PipeTransform {
     if (keyword === '') {
       return links;
     }else {
-      return links.filter(link => link.title.toLowerCase().includes(keyword.toLowerCase()) ||
-       link.url.toLowerCase().includes(keyword.toLowerCase()));
+      return links.filter(link =>
+        link.tags.join('').toLowerCase().includes(keyword.toLowerCase()) ||
+        link.title.toLowerCase().includes(keyword.toLowerCase()));
     }
 }
 
